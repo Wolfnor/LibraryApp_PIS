@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Библиотека</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  <link rel="stylesheet" href="enhanced_footer_sections.css">
+
+  <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('✅ Service Worker registered'))
+          .catch((error) => console.log('❌ Registration failed', error));
+      }
+    </script>
+</head>
+<body>
+<header>
+  <h1>Онлайн Библиотека</h1>
+  <nav>
+    <ul>
+      <li><a href="#home">Главная</a></li>
+      <li><a id="catalog">Мой Каталог</a></li>
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#contact">Контакты</a></li>
+      <li><a id="login">Войти</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="banner">
+  <div class="banner-content">
+    <h2>Добро пожаловать в нашу библиотеку!</h2>
+    <p>Здесь вы найдете книги на любой вкус.</p>
+  </div>
+</section>
+
+<section class="book-list" id="catalog">
+  <h2>Наши книги</h2>
+  <input type="text" id="searchInput" placeholder="Поиск книг..." />
+  <div class="book-container" id="bookContainer"></div>
+  <div id="pagination"></div>
+</section>
+
+<section class="about-section" id="about">
+  <h2>О нас</h2>
+  <p>Добро пожаловать на сайт нашей библиотеки! Мы — это пространство знаний, вдохновения и творчества, открытое для всех, кто стремится к самосовершенствованию, обучению и культурному развитию.
+    Наша миссия — создать условия для свободного доступа к информации, способствовать развитию чтения, поддерживать образование и культурные инициативы, а также предоставлять площадку для общения и обмена идеями.</p>
+
+  <h3>Что мы предлагаем</h3>
+  <p>• Книги на любой вкус: от классики до современных бестселлеров, научной литературы и произведений местных авторов.</p>
+  <p>• Электронные ресурсы: доступ к онлайн-библиотекам, базам данных и другим цифровым инструментам.</p>
+
+  <h3>Почему выбирают нас</h3>
+  <p>Мы стремимся быть не просто библиотекой, а современным культурным центром, где каждый найдет что-то для себя. Здесь ценится уважение, поддержка и стремление к развитию.
+    Присоединяйтесь к нашей дружной библиотечной семье и откройте для себя мир знаний и вдохновения! Мы всегда рады видеть вас!</p>
+</section>
+
+<footer id="contact">
+  <div class="footer-content">
+    <h3>Контакты</h3>
+    <p>Телефон: 8-776-114-98-62</p>
+    <p>Email: <a href="mailto:MA141005@mail.ru">MA141005@mail.ru</a></p>
+    <h3>Социальные сети</h3>
+    <p>
+      <a href="#">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">VK</a>
+    </p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+      document.getElementById('catalog').addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'catalog.html';
+      });
+    </script>
+<script>
+      document.getElementById('login').addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'index.html';
+      });
+    </script>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div id="bookModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle">Название книги</h2>
+    <p><strong>Автор:</strong> <span id="modalAuthor"></span></p>
+    <p><strong>Жанр:</strong> <span id="modalGenre"></span></p>
+    <p><strong>Описание:</strong></p>
+    <p id="modalDescription">Здесь будет краткое описание книги.</p>
+  </div>
+</div>
+
+<!-- СКРИПТ -->
+<script>
+      function openModal(title, author, genre, description) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalAuthor').textContent = author;
+        document.getElementById('modalGenre').textContent = genre;
+        document.getElementById('modalDescription').textContent = description;
+        document.getElementById('bookModal').style.display = 'flex';
+      }
+
+      function closeModal() {
+        document.getElementById('bookModal').style.display = 'none';
+      }
+    </script>
+</body>
+</html>

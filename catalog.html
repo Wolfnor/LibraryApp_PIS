@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мой Каталог</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  <link rel="stylesheet" href="enhanced_footer_sections.css">
+</head>
+<body>
+<header>
+  <h1>Ваш Каталог Книг</h1>
+  <nav>
+    <ul>
+      <li><a href="main.html">Главная</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="userCatalog" class="book-list">
+  <h2>Ваш Каталог</h2>
+  <div id="userBookContainer" class="book-container"></div>
+  <button id="buyButton">Купить</button>
+</section>
+
+<footer id="contact">
+  <div class="footer-content">
+    <h3>Контакты</h3>
+    <p>Телефон: 8-776-114-98-62</p>
+    <p>Email: <a href="mailto:MA141005@mail.ru">MA141005@mail.ru</a></p>
+    <h3>Социальные сети</h3>
+    <p>
+      <a href="#">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">VK</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const userBookContainer = document.getElementById('userBookContainer');
+      const userCatalog = JSON.parse(localStorage.getItem('userCatalog')) || [];
+      const buyButton = document.getElementById('buyButton');
+
+      const renderUserCatalog = () => {
+        userBookContainer.innerHTML = '';
+        if (userCatalog.length === 0) {
+          userBookContainer.innerHTML = '<p>Ваш каталог пуст.</p>';
+          return;
+        }
+
+        userCatalog.forEach((book, index) => {
+          const bookDiv = document.createElement('div');
+          bookDiv.classList.add('book');
+          bookDiv.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>Автор: ${book.author}</p>
+            <button class="delete-book" data-index="${index}">Удалить</button>
+          `;
+          userBookContainer.appendChild(bookDiv);
+
+          const deleteButton = bookDiv.querySelector('.delete-book');
+          deleteButton.addEventListener('click', () => {
+            removeBookFromCatalog(index);
+          });
+        });
+      };
+
+      const removeBookFromCatalog = (index) => {
+        userCatalog.splice(index, 1);
+        localStorage.setItem('userCatalog', JSON.stringify(userCatalog));
+        renderUserCatalog();
+      };
+
+      const buyBooks = () => {
+        if (userCatalog.length > 0) {
+          localStorage.removeItem('userCatalog');
+          alert('Ваша покупка прошла успешно!');
+          userBookContainer.innerHTML = '<p>Ваш каталог пуст.</p>';
+        } else {
+          alert('Ваш каталог пуст. Добавьте книги перед покупкой.');
+        }
+      };
+
+      buyButton.addEventListener('click', buyBooks);
+
+      renderUserCatalog();
+    });
+  </script>
+</body>
+</html>
